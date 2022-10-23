@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -32,8 +34,20 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    protected function type(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => ["Super Admin", "Admin", "Visitor"][$value],
+        );
+    }
+
     public function visitor()
     {
         return $this->hasOne(DataVisitor::class, 'user_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'user_id');
     }
 }

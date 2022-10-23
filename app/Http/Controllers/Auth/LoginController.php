@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,36 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function logout()
+    {
+        // Session::flush();
+        Auth::logout();
+        return redirect('/login');
+    }
+
+    public function signin(Request $request)
+    {
+        $request->validate([
+            'user_nama' => 'required',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('user_nama', 'password');
+        if (auth()->attempt($credentials)) {
+            return redirect()->intended('dashboard')->withSuccess('Berhasil Login');
+        }
+
+        return redirect('login')->withSuccess('Nama Pengguna / Password Salah');
+    }
+
+    public function dashboard()
+    {
+        if (Auth::check()) {
+            return view('dashboard');
+        }
+
+        return redirect('login')->withSuccess('Tidak dapat akses masuk');
     }
 }

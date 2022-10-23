@@ -2,21 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnakPosyandu;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class AnakPosyanduController extends Controller
+class UserController extends Controller
 {
-    const DATA_INPUT = [
-        'berat_kini',
-        'lingkar_kepala_kini',
-        'tgl_posyandu',
-        'riwayat_vitamin',
-        'riwayat_imunisasi',
-        'tinggi_kini',
-        'anak_id'
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +15,8 @@ class AnakPosyanduController extends Controller
      */
     public function index()
     {
-        $data = AnakPosyandu::with('anak')->get();
-        return view('kunjungan.index', compact('data'));
+        $data = User::orderBy('role_id', 'asc')->get();
+        return view('user.index', compact('data'));
     }
 
     /**
@@ -44,21 +35,18 @@ class AnakPosyanduController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        $data = $request->only(self::DATA_INPUT);
-        $data['anak_id'] = $id;
-        AnakPosyandu::create($data);
-        return redirect('/kunjungan')->with('success', 'Berhasil Tambah Data!');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AnakPosyandu  $anakPosyandu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(AnakPosyandu $anakPosyandu)
+    public function show($id)
     {
         //
     }
@@ -66,10 +54,10 @@ class AnakPosyanduController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AnakPosyandu  $anakPosyandu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnakPosyandu $anakPosyandu)
+    public function edit($id)
     {
         //
     }
@@ -78,10 +66,10 @@ class AnakPosyanduController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AnakPosyandu  $anakPosyandu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnakPosyandu $anakPosyandu)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -89,11 +77,17 @@ class AnakPosyanduController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnakPosyandu  $anakPosyandu
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnakPosyandu $anakPosyandu)
+    public function destroy($id)
     {
         //
+    }
+
+    public function role()
+    {
+        $data = DB::table('role')->where('id', '!=', 1)->get();
+        return view('role.index', compact('data'));
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Okt 2022 pada 21.58
+-- Waktu pembuatan: 23 Okt 2022 pada 17.39
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -32,12 +32,22 @@ CREATE TABLE `admin` (
   `admin_nama` varchar(45) DEFAULT NULL,
   `admin_telp` int(11) DEFAULT NULL,
   `admin_tempat_lahir` varchar(45) DEFAULT NULL,
-  `admin_tanggal_lahir` varchar(45) DEFAULT NULL,
+  `admin_tanggal_lahir` date DEFAULT NULL,
   `admin_email` varchar(45) DEFAULT NULL,
   `admin_tempat_posyandu` varchar(45) DEFAULT NULL,
   `posyandu_id` char(4) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data untuk tabel `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `admin_nama`, `admin_telp`, `admin_tempat_lahir`, `admin_tanggal_lahir`, `admin_email`, `admin_tempat_posyandu`, `posyandu_id`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('A1', 'Admin', 812, 'Malang', '2000-11-13', 'admin@gmail.com', 'Malang', 'P001', 6, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -91,7 +101,7 @@ CREATE TABLE `anak_posyandu` (
 --
 
 INSERT INTO `anak_posyandu` (`id`, `berat_kini`, `lingkar_kepala_kini`, `tgl_posyandu`, `riwayat_vitamin`, `riwayat_imunisasi`, `tinggi_kini`, `anak_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, '2022-10-22', 'a', 'a', 1, 1, '2022-10-22 10:50:03', '2022-10-22 10:50:03', NULL),
+(1, 1, 1, '2022-10-22', 'a', 'a', 11, 1, '2022-10-22 10:50:03', '2022-10-23 08:07:33', NULL),
 (2, 2, 2, '2022-10-22', 'q', 'q', 2, 1, '2022-10-22 11:18:37', '2022-10-22 11:35:43', '2022-10-22 18:35:43'),
 (3, 3, 3, '2022-10-22', 'f', 'd', 3, 1, '2022-10-22 11:21:55', '2022-10-22 11:35:41', '2022-10-22 18:35:41'),
 (4, 5, 5, '2022-10-22', 'f', 'f', 5, 1, '2022-10-22 11:22:56', '2022-10-22 11:35:39', '2022-10-22 18:35:39'),
@@ -111,6 +121,13 @@ CREATE TABLE `posyandu` (
   `jumlah_pengurus` int(11) DEFAULT NULL,
   `penanggung_jawab` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data untuk tabel `posyandu`
+--
+
+INSERT INTO `posyandu` (`posyandu_id`, `posyandu_nama`, `posyandu_kelurahan`, `posyandu_kecamatan`, `jumlah_pengurus`, `penanggung_jawab`) VALUES
+('P001', 'Posyandu Sunshine', 'Malang', 'Malang', 2, 'Nur Sukma P');
 
 -- --------------------------------------------------------
 
@@ -171,7 +188,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `user_nama`, `user_telp`, `user_keterangan`, `user_email`, `password`, `role_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'nia', '0812', 'Visitor', 'n@gmail.com', '$2y$10$HAatXi4WT/mqUy/kT391lu/7cSiNSOYgEJDuwNQpccuGWgtq7nBJ2', 3, NULL, NULL, NULL),
-(5, 'ayu', '112', 'Visitor', 'a@gmail.com', '$2y$10$jU8k0DK576DQUV9POgPTWeiP4DHUVAWkEBSu85WZ9lXMQ7EFcEqay', 3, '2022-10-22 12:32:52', '2022-10-22 12:32:59', '2022-10-22 19:32:59');
+(5, 'ayu', '112', 'Visitor', 'a@gmail.com', '$2y$10$jU8k0DK576DQUV9POgPTWeiP4DHUVAWkEBSu85WZ9lXMQ7EFcEqay', 3, '2022-10-22 12:32:52', '2022-10-22 12:32:59', '2022-10-22 19:32:59'),
+(6, 'admin', '0812', 'Admin', 'admin@gmail.com', '$2y$10$jU8k0DK576DQUV9POgPTWeiP4DHUVAWkEBSu85WZ9lXMQ7EFcEqay', 2, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -282,7 +300,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `visitor`
@@ -312,6 +330,12 @@ ALTER TABLE `anak`
 --
 ALTER TABLE `anak_posyandu`
   ADD CONSTRAINT `fk_posyandu_anak` FOREIGN KEY (`anak_id`) REFERENCES `anak` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `sesi`
+--
+ALTER TABLE `sesi`
+  ADD CONSTRAINT `fk_User_has_Visitor_Visitor1` FOREIGN KEY (`visitor_id`) REFERENCES `visitor` (`visitor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ketidakleluasaan untuk tabel `user`

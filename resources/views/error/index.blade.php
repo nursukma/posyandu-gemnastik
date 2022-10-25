@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Posyandu - Sunshine</title>
-    @notifyCss
+    <title>Halaman Tidak Ditemukan</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -41,48 +40,29 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        @include('partials.sidebar')
 
-        <div class="main">
-            @include('partials.topbar')
+    <main>
+        <div class="container">
 
-            <main class="content">
-                <div class="container-fluid">
+            <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+                <h1>404</h1>
+                <h2>Maaf Halaman Tidak Ditemukan ):</h2>
+                <a class="btn" href="/dashboard">Back to home</a>
+                <img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Page Not Found">
 
-                    @yield('content')
+            </section>
 
-                    <div class="notify">
-                        <x:notify-messages />
-                        @notifyJs
-                    </div>
-
-                    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-                            class="bi bi-arrow-up-short"></i></a>
-                </div>
-            </main>
-
-            @include('partials.footer')
         </div>
-    </div>
+    </main><!-- End #main -->
 
-    .
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
     <!-- Vendor JS Files -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    =
-    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/chart.js/chart.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-    <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-
-    @yield('page-script')
 
 </body>
 

@@ -16,6 +16,11 @@
              <a class="nav-link collapsed " href="/data-visitor">
                  <i class="bi bi-person-fill"></i><span>Data Ibu</span>
              </a>
+             {{-- @if (\Illuminate\Http\Request === 'data-visitor')
+                 <a class="nav-link collapsed active" href="/data-visitor">
+                     <i class="bi bi-person-fill"></i><span>Data Ibu</span>
+                 </a>
+             @endif --}}
          </li><!-- End Data Ibu Nav -->
 
          <li class="nav-item">

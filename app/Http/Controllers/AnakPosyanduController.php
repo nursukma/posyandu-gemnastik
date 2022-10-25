@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnakPosyandu;
+use App\Models\DataAnak;
+use App\Models\DataVisitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnakPosyanduController extends Controller
 {
@@ -24,8 +27,25 @@ class AnakPosyanduController extends Controller
      */
     public function index()
     {
-        $data = AnakPosyandu::with('anak')->get();
-        return view('kunjungan.index', compact('data'));
+        if (auth()->user()->role_id == 3) {
+            $variable = auth()->user()->id;
+            $data = [];
+            $quer = DB::table('anak_posyandu')
+                ->join('anak', 'anak.id', '=', 'anak_posyandu.anak_id')
+                ->join('visitor', 'visitor.id', '=', 'anak.visitor_id')
+                ->join('user', 'visitor.user_id', '=', 'user.id')
+                ->where('visitor.user_id', '=', $variable)
+                // ->groupBy('visitor.user_id')
+                // ->orderByDesc('anak_posyandu.created_at')
+                ->get();
+            array_push($data, $quer);
+            // dd($data);
+            return view('kunjungan.index', compact('data'));
+        } else {
+            $data = AnakPosyandu::with('anak')->get();
+            // dd($data);
+            return view('kunjungan.index', compact('data'));
+        }
     }
 
     /**
@@ -49,7 +69,9 @@ class AnakPosyanduController extends Controller
         $data = $request->only(self::DATA_INPUT);
         $data['anak_id'] = $id;
         AnakPosyandu::create($data);
-        return redirect('/kunjungan')->with('success', 'Berhasil Tambah Data!');
+
+        notify()->success('Berhasil Tambah Data!');
+        return redirect('/kunjungan');
     }
 
     /**

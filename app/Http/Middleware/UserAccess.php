@@ -20,7 +20,7 @@ class UserAccess
             return $next($request);
         }
 
-        return response()->json(['Mohon maaf anda tidak memiliki akses ):']);
-        // return response()->vie();
+        // return response()->json(['Mohon maaf anda tidak memiliki akses ):']);
+        return response()->view('error.index');
     }
 }

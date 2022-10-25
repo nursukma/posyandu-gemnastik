@@ -59,7 +59,9 @@ class DataVisitorController extends Controller
             $data = $request->only(self::DATA_VISITOR);
             $data['user_id'] = $addUser->id;
             DataVisitor::create($data);
-            return redirect('/data-visitor')->with('success', 'Berhasil Tambah Data!');
+
+            notify()->success('Berhasil Tambah Data!');
+            return redirect('/data-visitor');
         }
     }
 
@@ -96,7 +98,9 @@ class DataVisitorController extends Controller
     {
         $data = $request->only(self::DATA_VISITOR);
         $dataVisitor->update($data);
-        return redirect('/data-visitor')->with('success', 'Berhasil Ubah Data!');
+
+        notify()->success('Berhasil Ubah Data!');
+        return redirect('/data-visitor');
     }
 
     /**
@@ -113,7 +117,9 @@ class DataVisitorController extends Controller
 
         if ($del) {
             $dataUser->delete();
-            return redirect('/data-visitor')->with('success', 'Berhasil Hapus Data!');
+
+            notify()->success('Berhasil Hapus Data!');
+            return redirect('/data-visitor');
         }
     }
 }

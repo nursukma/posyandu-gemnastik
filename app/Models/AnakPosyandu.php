@@ -25,6 +25,6 @@ class AnakPosyandu extends Model
 
     public function anak()
     {
-        return $this->belongsTo(DataAnak::class, 'anak_id');
+        return $this->belongsTo(DataAnak::class, 'anak_id')->with('visitor');
     }
 }

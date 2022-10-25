@@ -44,6 +44,7 @@ class LoginController extends Controller
     {
         // Session::flush();
         Auth::logout();
+        notify()->success('Berhasil Logout!');
         return redirect('/login');
     }
 
@@ -56,10 +57,12 @@ class LoginController extends Controller
 
         $credentials = $request->only('user_nama', 'password');
         if (auth()->attempt($credentials)) {
-            return redirect()->intended('dashboard')->withSuccess('Berhasil Login');
+            notify()->success('Berhasil Login!');
+            return redirect()->intended('dashboard');
         }
 
-        return redirect('login')->withSuccess('Nama Pengguna / Password Salah');
+        notify()->error('Nama Pengguna / Password Salah!');
+        return redirect('login');
     }
 
     public function dashboard()

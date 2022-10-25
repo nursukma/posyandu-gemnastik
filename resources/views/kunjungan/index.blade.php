@@ -32,20 +32,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $item)
-                                    <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>
-                                            <a class="text-info fw-bold detailkunjungan" href="javascript:void(0)"
-                                                data-id="{{ $item }}">
-                                                {{ \Carbon\Carbon::parse($item->tgl_posyandu)->format('d-m-Y') }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            {{ $item->anak->visitor->visitor_nama }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @if ($data != null)
+                                    @foreach ($data as $key => $item)
+                                        <tr>
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td>
+                                                @if (auth()->user()->role_id == 3)
+                                                    <a class="text-info fw-bold detailkunjungan" href="javascript:void(0)"
+                                                        data-id="{{ $item }}">
+                                                        {{ \Carbon\Carbon::parse($item[$key]->tgl_posyandu)->format('d-m-Y') }}
+                                                    </a>
+                                                @else
+                                                    <a class="text-info fw-bold detailkunjungan" href="javascript:void(0)"
+                                                        data-id="{{ $item }}">
+                                                        {{ \Carbon\Carbon::parse($item->tgl_posyandu)->format('d-m-Y') }}
+                                                    </a>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (auth()->user()->role_id == 3)
+                                                    {{ $item[$key]->visitor_nama }}
+                                                @else
+                                                    {{ $item->anak->visitor->visitor_nama }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

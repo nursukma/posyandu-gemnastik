@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Login</title>
+    @notifyCss
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -41,6 +42,9 @@
 
 <body>
 
+    <x:notify-messages />
+    @notifyJs
+
     <main>
         <div class="container">
 
@@ -66,7 +70,7 @@
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
 
-                                    <form class="row g-3 needs-validation" action='{{ route('login') }}' method="post"
+                                    <form class="row g-3 needs-validation" action='{{ route('signin') }}' method="post"
                                         novalidate>
                                         @csrf
                                         <div class="col-12">

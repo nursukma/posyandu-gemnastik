@@ -68,7 +68,9 @@ class DataAnakController extends Controller
         $data = $request->only(self::DATA_INPUT);
         $data['visitor_id'] = 1;
         DataAnak::create($data);
-        return redirect('/data-anak')->with('success', 'Berhasil Tambah Data!');
+
+        notify()->success('Berhasil Tambah Data!');
+        return redirect('/data-anak');
     }
 
     /**
@@ -107,7 +109,9 @@ class DataAnakController extends Controller
     {
         $data = $request->only(self::DATA_INPUT);
         $dataAnak->update($data);
-        return redirect('/data-anak')->with('success', 'Berhasil Ubah Data!');
+
+        notify()->success('Berhasil Ubah Data!');
+        return redirect('/data-anak');
     }
 
     /**
@@ -119,7 +123,9 @@ class DataAnakController extends Controller
     public function destroy(DataAnak $dataAnak)
     {
         $dataAnak->delete();
-        return redirect('/data-anak')->with('success', 'Berhasil Hapus Data!');
+
+        notify()->success('Berhasil Hapus Data!');
+        return redirect('/data-anak');
     }
 
     public function addKunjungan(Request $request)
@@ -129,7 +135,8 @@ class DataAnakController extends Controller
         $data['tgl_posyandu'] = Carbon::now()->format('Y-m-d');
         AnakPosyandu::create($data);
 
-        return back()->with('success', 'Berhasil Tambah Data!');
+        notify()->success('Berhasil Tambah Data!');
+        return back();
     }
 
     public function showKunjungan(AnakPosyandu $data)
@@ -142,13 +149,17 @@ class DataAnakController extends Controller
         $data = $request->only(self::DATA_KUNJUNGAN);
         $dataAnak = AnakPosyandu::where('id', $id)->first();
         $dataAnak->update($data);
-        return back()->with('success', 'Berhasil Ubah Data!');
+
+        notify()->success('Berhasil Ubah Data!');
+        return back();
     }
 
     public function desKunjungan($id)
     {
         $data = AnakPosyandu::where('id', $id)->first();
         $data->delete();
-        return back()->with('success', 'Berhasil Hapus Data!');
+
+        notify()->success('Berhasil Hapus Data!');
+        return back();
     }
 }
